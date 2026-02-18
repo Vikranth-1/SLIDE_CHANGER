@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Controller</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-glow"></div>
+
+    <div class="app-container">
+        <header>
+            <img src="logo.png" alt="Logo" class="logo">
+            <div id="status" class="status-badge">Connected</div>
+        </header>
+
+        <main class="controls">
+            <button id="prevBtn" class="control-btn secondary glass-effect">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                </svg>
+            </button>
+
+            <button id="playBtn" class="control-btn primary glass-effect">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </button>
+
+            <button id="nextBtn" class="control-btn secondary glass-effect">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                </svg>
+            </button>
+        </main>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io({
+            transports: ['websocket'],
+            upgrade: false
+        });
+        const statusDiv = document.getElementById('status');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const playBtn = document.getElementById('playBtn');
+
+        socket.on('connect', () => {
+            statusDiv.textContent = 'Online';
+            statusDiv.classList.add('connected');
+        });
+
+        socket.on('disconnect', () => {
+            statusDiv.textContent = 'Offline';
+            statusDiv.classList.remove('connected');
+        });
+
+        const handleAction = (action, btn) => {
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(50);
+            }
+            socket.emit(action);
+
+            // Visual feedback
+            btn.classList.add('pressed');
+            setTimeout(() => btn.classList.remove('pressed'), 150);
+        };
+
+        const setupBtn = (btn, action) => {
+            btn.addEventListener('click', () => handleAction(action, btn));
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                handleAction(action, btn);
+            });
+        };
+
+        setupBtn(nextBtn, 'slide-next');
+        setupBtn(prevBtn, 'slide-prev');
+        setupBtn(playBtn, 'play-pause');
+    </script>
+</body>
+
+</html>

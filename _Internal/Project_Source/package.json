@@ -1,0 +1,53 @@
+{
+  "name": "slide-changer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.vikranth.slidechanger",
+    "productName": "Slide changer",
+    "win": {
+      "target": "portable",
+      "icon": "public/logo.png",
+      "signingHashAlgorithms": null
+    },
+    "cscLink": null,
+    "extraResources": [
+      "KeySender.exe",
+      "public/**/*"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "ip": "^2.0.1",
+    "qrcode-terminal": "^0.12.0",
+    "sharp": "^0.34.5",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "electron": "^40.1.0",
+    "electron-builder": "^26.4.0",
+    "pkg": "^5.8.1",
+    "png-to-ico": "^3.0.1",
+    "png2icons": "^2.0.1",
+    "rcedit": "^4.0.1"
+  },
+  "bin": "server.js",
+  "pkg": {
+    "assets": [
+      "public/**/*"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ]
+  }
+}

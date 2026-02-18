@@ -1,0 +1,16 @@
+# Large Binaries
+_Internal/App_Data/Slide changer.exe
+_Internal/App_Data/resources/app.asar
+_Internal/Project_Source/slide-changer.exe
+_Internal/Project_Source/dist/
+
+# Dependencies
+node_modules/
+
+# Environment and Logs
+.env
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
